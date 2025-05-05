@@ -10,7 +10,6 @@ import md5 from 'md5';
 import { convertToAscii } from './utils';
 
 export const getPineconeClient = () => {
-  console.log(process.env.NEXT_PUBLIC_PINCONE_API_KEY);
   return new Pinecone({
     apiKey: process.env.NEXT_PUBLIC_PINCONE_API_KEY!,
   });

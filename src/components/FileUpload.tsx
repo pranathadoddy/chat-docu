@@ -6,7 +6,7 @@ import React, { use } from 'react';
 import axios from 'axios';
 import { useDropzone } from 'react-dropzone';
 import toast from 'react-hot-toast';
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 
 type Props = {};
 
