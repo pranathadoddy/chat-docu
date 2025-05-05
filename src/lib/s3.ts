@@ -23,8 +23,6 @@ export async function uploadFileToS3(file: File) {
       ContentType: file.type,
     };
 
-    debugger;
-
     const upload = s3
       .putObject(params)
       .on('httpUploadProgress', (evt) => {
@@ -50,6 +48,6 @@ export async function uploadFileToS3(file: File) {
 }
 
 export function getS3Url(file_key: string) {
-  const url = `https://${process.env.AWS_BUCKET_NAME}.s3.ap-southeast-1.amazonaws.com/${file_key}`;
+  const url = `https://${process.env.NEXT_PUBLIC_AWS_BUCKET_NAME}.s3.ap-southeast-1.amazonaws.com/${file_key}`;
   return url;
 }
