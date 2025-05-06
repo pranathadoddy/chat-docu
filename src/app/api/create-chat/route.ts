@@ -2,11 +2,12 @@ import { db } from '@/lib/db';
 import { chats } from '@/lib/db/schema';
 import { loadS3IntoPinecone } from '@/lib/pinecone';
 import { getS3Url } from '@/lib/s3';
-import { auth } from '@clerk/nextjs/server';
 import { NextResponse } from 'next/server';
 
 export async function POST(req: Request, res: Response) {
-  const { userId } = await auth();
+  const body = await req.json();
+  const { userId } = body;
+  console.log('userId:', userId);
   if (!userId) {
     return NextResponse.json(
       {
@@ -17,10 +18,10 @@ export async function POST(req: Request, res: Response) {
   }
 
   try {
-    const body = await req.json();
     const { file_key, file_name } = body;
     console.log({ file_key, file_name });
     await loadS3IntoPinecone(file_key);
+    console.log('loaded s3 into pinecone');
     const chat_id = await db
       .insert(chats)
       .values({
