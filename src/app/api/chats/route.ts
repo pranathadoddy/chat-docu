@@ -1,6 +1,6 @@
 import { getContext } from '@/lib/context';
 import { db } from '@/lib/db';
-import { chats } from '@/lib/db/schema';
+import { chats, messages as _messages } from '@/lib/db/schema';
 import { getPineconeClient } from '@/lib/pinecone';
 import { createOpenAI } from '@ai-sdk/openai';
 import { Message, streamText } from 'ai';
@@ -52,6 +52,27 @@ export async function POST(req: Request) {
       ],
     });
 
-    return result.toDataStreamResponse();
+    //save user message to db
+    await db.insert(_messages).values({
+      chatId: chatId,
+      role: 'user',
+      content: lastMessage.content,
+    });
+
+    //save assistant message to db
+    const stream = result.toDataStreamResponse();
+
+    let fullText = '';
+
+    for await (const textPart of result.textStream) {
+      fullText += textPart;
+    }
+
+    await db.insert(_messages).values({
+      chatId: chatId,
+      role: 'system',
+      content: fullText,
+    });
+    return stream;
   } catch (error) {}
 }
