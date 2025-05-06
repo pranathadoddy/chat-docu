@@ -12,7 +12,6 @@ A modern AI-powered platform that allows users to **upload documents and chat wi
 - **File Storage**: AWS S3
 - **Vector Search**: Pinecone
 - **AI**: OpenAI API, OpenAI Edge
-- **Payments**: Stripe
 - **Networking & State**: Axios, React Query (@tanstack/react-query)
 - **Styling Helpers**: clsx, tailwind-merge
 - **ORM Tooling**: drizzle-kit
@@ -27,7 +26,6 @@ A modern AI-powered platform that allows users to **upload documents and chat wi
 - 🧠 Chunk and embed documents using OpenAI Embeddings
 - 📇 Store vector embeddings in Pinecone
 - 💬 Chat with the document using context-aware OpenAI completions
-- 💸 Optional Stripe integration for premium features
 - 🧹 Serverless, scalable architecture using Neon & Vercel Edge
 
 ---
