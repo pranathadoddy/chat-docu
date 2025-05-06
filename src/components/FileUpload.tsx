@@ -8,9 +8,11 @@ import { useDropzone } from 'react-dropzone';
 import toast from 'react-hot-toast';
 import { useRouter } from 'next/navigation';
 
-type Props = {};
+type Props = {
+  userId: string | null;
+};
 
-const FileUpload = (props: Props) => {
+const FileUpload = ({ userId }: Props) => {
   const router = useRouter();
   const [uploading, setUploading] = React.useState(false);
 
@@ -18,13 +20,16 @@ const FileUpload = (props: Props) => {
     mutationFn: async ({
       file_key,
       file_name,
+      userId,
     }: {
       file_key: string;
       file_name: string;
+      userId: string;
     }) => {
       const response = await axios.post('/api/create-chat', {
         file_key,
         file_name,
+        userId,
       });
       return response.data;
     },
@@ -45,6 +50,7 @@ const FileUpload = (props: Props) => {
 
       try {
         const data = await uploadFileToS3(file);
+        console.log('File uploaded to S3:', data);
         if (!data?.file_key || !data.file_name) {
           toast.error('Something went wrong');
           return;
@@ -54,6 +60,7 @@ const FileUpload = (props: Props) => {
           {
             file_key: data.file_key,
             file_name: data.file_name,
+            userId: userId || '',
           },
           {
             onSuccess: (data) => {
